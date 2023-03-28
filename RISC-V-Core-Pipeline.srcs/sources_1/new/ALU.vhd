@@ -1,20 +1,21 @@
 -- Implementing ALU datapath
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+use ieee.math_real.all;
+--use work.alu_ops_pkg.all;
 
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
-use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
-
-entity ALU is
---  Port ( );
-end ALU;
+ENTITY ALU IS
+GENERIC(
+    WIDTH : NATURAL := 32);
+PORT(
+    a_i : in STD_LOGIC_VECTOR(WIDTH-1 DOWNTO 0); --prvi operand
+    b_i : in STD_LOGIC_VECTOR(WIDTH-1 DOWNTO 0); --drugi operand
+    op_i : in STD_LOGIC_VECTOR(4 DOWNTO 0); --port za izbor operacije
+    res_o : out STD_LOGIC_VECTOR(WIDTH-1 DOWNTO 0); --rezultat
+    zero_o : out STD_LOGIC; -- signal da je rezultat nula
+    of_o : out STD_LOGIC); -- signal da je doslo do prekoracenja opsega
+END ALU;
 
 architecture Behavioral of ALU is
 
