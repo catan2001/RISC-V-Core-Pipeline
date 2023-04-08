@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Wed Mar 29 20:15:23 2023
+# Process ID: 916
+# Current directory: C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent16604 C:\Users\nikol\OneDrive\Desktop\Computer Architecture\RISC-V-Core-Pipeline\RISC-V-Core-Pipeline.xpr
+# Log file: C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/vivado.log
+# Journal file: C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project {C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.xpr}
+update_compile_order -fileset sources_1

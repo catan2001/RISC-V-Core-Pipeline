@@ -52,7 +52,7 @@ begin
 
 register_bank_write: process(clk) is
 begin
-    if falling_edge(clk) then
+    if rising_edge(clk) then
         if(reset = '1') then
             registers(to_integer(unsigned(rd_address_i))) <= (others => '0');
         else
