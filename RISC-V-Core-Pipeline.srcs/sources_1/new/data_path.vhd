@@ -33,35 +33,35 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity data_path is
 port(
--- sinhronizacioni signali
-clk : in std_logic;
-reset : in std_logic;
--- interfejs ka memoriji za instrukcije
-instr_mem_address_o : out std_logic_vector (31 downto 0);
-instr_mem_read_i : in std_logic_vector(31 downto 0);
-instruction_o : out std_logic_vector(31 downto 0);
--- interfejs ka memoriji za podatke
-data_mem_address_o : out std_logic_vector(31 downto 0);
-data_mem_write_o : out std_logic_vector(31 downto 0);
-data_mem_read_i : in std_logic_vector (31 downto 0);
--- kontrolni signali
-mem_to_reg_i : in std_logic;
-alu_op_i : in std_logic_vector (4 downto 0);
-alu_src_b_i : in std_logic;
-alu_src_a_i : in std_logic; -- DODANO!
-pc_next_sel_i : in std_logic;
-rd_we_i : in std_logic;
-branch_condition_o : out std_logic; -- IF OPERANDS ARE EQUAL THE OUTPUT OF BRANCH CONDITION IS 1
--- kontrolni signali za prosledjivanje operanada u ranije faze protocne obrade
-alu_forward_a_i : in std_logic_vector (1 downto 0);
-alu_forward_b_i : in std_logic_vector (1 downto 0);
-branch_forward_a_i : in std_logic;
-branch_forward_b_i : in std_logic;
--- kontrolni signal za resetovanje if/id registra
-if_id_flush_i : in std_logic;
--- kontrolni signali za zaustavljanje protocne obrade
-pc_en_i : in std_logic;
-if_id_en_i : in std_logic);
+    -- sinhronizacioni signali
+    clk : in std_logic;
+    reset : in std_logic;
+    -- interfejs ka memoriji za instrukcije
+    instr_mem_address_o : out std_logic_vector (31 downto 0);
+    instr_mem_read_i : in std_logic_vector(31 downto 0);
+    instruction_o : out std_logic_vector(31 downto 0);
+    -- interfejs ka memoriji za podatke
+    data_mem_address_o : out std_logic_vector(31 downto 0);
+    data_mem_write_o : out std_logic_vector(31 downto 0);
+    data_mem_read_i : in std_logic_vector (31 downto 0);
+    -- kontrolni signali
+    mem_to_reg_i : in std_logic;
+    alu_op_i : in std_logic_vector (4 downto 0);
+    alu_src_b_i : in std_logic;
+    alu_src_a_i : in std_logic; -- DODANO!
+    pc_next_sel_i : in std_logic;
+    rd_we_i : in std_logic;
+    branch_condition_o : out std_logic; -- IF OPERANDS ARE EQUAL THE OUTPUT OF BRANCH CONDITION IS 1
+    -- kontrolni signali za prosledjivanje operanada u ranije faze protocne obrade
+    alu_forward_a_i : in std_logic_vector (1 downto 0);
+    alu_forward_b_i : in std_logic_vector (1 downto 0);
+    branch_forward_a_i : in std_logic;
+    branch_forward_b_i : in std_logic;
+    -- kontrolni signal za resetovanje if/id registra
+    if_id_flush_i : in std_logic;
+    -- kontrolni signali za zaustavljanje protocne obrade
+    pc_en_i : in std_logic;
+    if_id_en_i : in std_logic);
 end entity;
 
 architecture Behavioral of data_path is
@@ -75,13 +75,13 @@ architecture Behavioral of data_path is
     signal immediate_id, shifter_output_id: std_logic_vector(31 downto 0):= (others => '0');
     --INSTRUCTION EXECUTE
     signal  id_ex_reg_out1, id_ex_reg_out2, id_ex_reg_out3, id_ex_reg_out4, id_ex_reg_out5, id_ex_reg_out6: std_logic_vector(31 downto 0):= (others => '0');
-    signal mux_a_ex1, mux_a_ex2, mux_b_ex1, mux_b_ex2: std_logic_vector(31 downto 0);
-    signal alu_result: std_logic_vector(31 downto 0);
+    signal mux_a_ex1, mux_a_ex2, mux_b_ex1, mux_b_ex2: std_logic_vector(31 downto 0) := (others => '0');
+    signal alu_result: std_logic_vector(31 downto 0) := (others => '0');
     --MEMORY PHASE
-    signal ex_mem_reg_out1, ex_mem_reg_out2, ex_mem_reg_out3: std_logic_vector(31 downto 0);
+    signal ex_mem_reg_out1, ex_mem_reg_out2, ex_mem_reg_out3: std_logic_vector(31 downto 0) := (others => '0');
     -- WRITE BACK
-    signal mem_wb_reg_out1, mem_wb_reg_out2, mem_wb_reg_out3: std_logic_vector(31 downto 0);
-    signal mux_mem_to_reg_wb: std_logic_vector(31 downto 0);
+    signal mem_wb_reg_out1, mem_wb_reg_out2, mem_wb_reg_out3: std_logic_vector(31 downto 0) := (others => '0');
+    signal mux_mem_to_reg_wb: std_logic_vector(31 downto 0) := (others => '0');
 
 begin
 
@@ -100,8 +100,12 @@ begin
     program_counter: process(clk, pc_en_i) is 
     begin
         if(rising_edge(clk)) then
-            if(pc_en_i = '1') then
-                pc_out_if <= mux_out_pc_if;
+            if(reset = '1') then
+                if(pc_en_i = '1') then
+                    pc_out_if <= mux_out_pc_if;
+                end if;
+            else
+                pc_out_if <= (others => '0');
             end if;
         end if;
     end process;
@@ -119,7 +123,8 @@ begin
     -- PROVJERI DA LI TREBA DODATI RESET NA SVAKI REGISTAR DODATNI
     -- PAZI IMAS GRESKU ZA POVRATAK U KOMPARATOR ZBOG PDFA ZA BRANCH FORWARD
     -- dodaj konju i resete na registre isto dodaj na if_ID_REGISTAR instruction_o
-    -- SVI JEBENI RESETI SU NA NULI
+    -- SVI RESETI SU NA NULI
+    -- NAVODNO TRECI SIGNAL U IF_ID TREBA DA ZAPRAVO ZAOBIDJE REGISTAR
     if_id_reg: process(clk) is -- IF_ID_REGISTER
     begin
         if(rising_edge(clk)) then

@@ -78,8 +78,6 @@ begin
                 end if;
             end if ;
         end process;
-
-
     
     branch_forward: process(rd_we_mem_i, rd_address_mem_i, rs1_address_id_i, rs2_address_id_i) is
         begin

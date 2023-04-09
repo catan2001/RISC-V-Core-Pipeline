@@ -20,8 +20,8 @@ PORT(
 END ALU;
 
 architecture Behavioral of ALU is
-    signal result_alu: std_logic_vector(31 downto 0);
-    signal sub_res, add_res, first_operand, second_operand : std_logic_vector(32 downto 0);  
+    signal result_alu: std_logic_vector(31 downto 0) := (others => '0');
+    signal sub_res, add_res, first_operand, second_operand : std_logic_vector(32 downto 0) := (others => '0');  
 begin
 
     process(a_i, b_i, op_i, add_res, sub_res) is

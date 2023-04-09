@@ -103,7 +103,7 @@ begin
                             rd_we_o <= '0';          -- enables writing output to register bank
                             rs1_in_use_o <= '0';    -- PROVJERI **
                             rs2_in_use_o <= '0';    -- PROVJERI **
-                            alu_2bit_op_o <= "00";   
+                            alu_2bit_op_o <= "11";   
         end case;                                                                                                                                                                 
     end process;
 end Behavioral;

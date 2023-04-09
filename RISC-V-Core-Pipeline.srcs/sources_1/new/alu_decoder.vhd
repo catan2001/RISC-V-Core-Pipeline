@@ -42,12 +42,13 @@ alu_op_o : out std_logic_vector(4 downto 0));
 end entity;
 
 architecture Behavioral of alu_decoder is
-    signal alu_output: std_logic_vector(4 downto 0);
+    signal alu_output: std_logic_vector(4 downto 0) := (others => '0');
 begin
     -- ZASTO SAM KORISTIO SIGNED DOLE????
+    -- KREIRA NEPOTREBAN LATCH???
     alu_dec: process(alu_2bit_op_i, funct3_i, funct7_i) is
     begin
-        if(alu_2bit_op_i = "00") then -- FOR OTHER INSTRUCTIONS LW, SW...
+        if(alu_2bit_op_i = "00") then -- FOR OTHER INSTRUCTIONS LW, SW... AUIPC ALSO
             alu_output <= "00010";
         elsif(alu_2bit_op_i(1) = '1' and (alu_2bit_op_i(0) = '0' or alu_2bit_op_i(0) = '1')) then 
             if(signed(funct7_i) = "0000000" and signed(funct3_i) = "000") then
@@ -62,6 +63,6 @@ begin
         elsif(alu_2bit_op_i(0) = '1' and (alu_2bit_op_i(1) = '0' or alu_2bit_op_i(1) = '1')) then
             alu_output <= "00110";
         end if;
-    end process;
-
+    end process;   
+    alu_op_o <= alu_output;
 end Behavioral;
