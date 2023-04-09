@@ -11,3 +11,88 @@
 #-----------------------------------------------------------
 start_gui
 open_project {C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.xpr}
+update_compile_order -fileset sources_1
+synth_design -rtl -rtl_skip_mlo -name rtl_1
+refresh_design
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top PC [current_fileset]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sources_1
+refresh_design
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top ALU [current_fileset]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sources_1
+refresh_design
+refresh_design
+refresh_design
+refresh_design
+refresh_design
+close [ open {C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/ctrl_decoder.vhd} w ]
+add_files {{C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/ctrl_decoder.vhd}}
+update_compile_order -fileset sources_1
+close [ open {C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/alu_decoder.vhd} w ]
+add_files {{C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/alu_decoder.vhd}}
+update_compile_order -fileset sources_1
+refresh_design
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top alu_decoder [current_fileset]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sources_1
+refresh_design
+close [ open {C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/data_path.vhd} w ]
+add_files {{C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/data_path.vhd}}
+update_compile_order -fileset sources_1
+export_ip_user_files -of_objects  [get_files {{C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/PC.vhd}}] -no_script -reset -force -quiet
+remove_files  {{C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/PC.vhd}}
+file delete -force {C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/PC.vhd}
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top ctrl_decoder [current_fileset]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sources_1
+refresh_design
+refresh_design
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top ALU [current_fileset]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sources_1
+refresh_design
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+refresh_design
+refresh_design
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+refresh_design
+refresh_design
+refresh_design
+refresh_design
+close [ open {C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/hazard_unit.vhd} w ]
+add_files {{C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/hazard_unit.vhd}}
+update_compile_order -fileset sources_1
+close [ open {C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/forwarding_unit.vhd} w ]
+add_files {{C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/forwarding_unit.vhd}}
+update_compile_order -fileset sources_1
+refresh_design

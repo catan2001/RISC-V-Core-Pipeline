@@ -42,26 +42,26 @@ alu_op_o : out std_logic_vector(4 downto 0));
 end entity;
 
 architecture Behavioral of alu_decoder is
-signal alu_output: std_logic_vector(4 downto 0);
+    signal alu_output: std_logic_vector(4 downto 0);
 begin
--- ZASTO SAM KORISTIO SIGNED DOLE????
-alu_dec: process(alu_2bit_op_i, funct3_i, funct7_i) is
-begin
-    if(alu_2bit_op_i = "00") then -- FOR OTHER INSTRUCTIONS LW, SW...
-        alu_output <= "00010";
-    elsif(alu_2bit_op_i(1) = '1' and (alu_2bit_op_i(0) = '0' or alu_2bit_op_i(0) = '1')) then 
-        if(signed(funct7_i) = "0000000" and signed(funct3_i) = "000") then
-            alu_output <= "00010";  -- ADD INSTRUCTION
-        elsif(signed(funct7_i) = "0100000" and signed(funct3_i) = "000") then
-            alu_output <= "00110";  -- SUBTRACT INSTRUCTION
-        elsif(signed(funct7_i) = "0000000" and signed(funct3_i) = "111") then
-            alu_output <= "00000";  -- AND INSTRUCTION
-        elsif(signed(funct7_i) = "0000000" and signed(funct3_i) = "110") then
-            alu_output <= "00001";  -- OR INSTRUCTION      
-        end if; 
-    elsif(alu_2bit_op_i(0) = '1' and (alu_2bit_op_i(1) = '0' or alu_2bit_op_i(1) = '1')) then
-        alu_output <= "00110";
-    end if;
-end process;
+    -- ZASTO SAM KORISTIO SIGNED DOLE????
+    alu_dec: process(alu_2bit_op_i, funct3_i, funct7_i) is
+    begin
+        if(alu_2bit_op_i = "00") then -- FOR OTHER INSTRUCTIONS LW, SW...
+            alu_output <= "00010";
+        elsif(alu_2bit_op_i(1) = '1' and (alu_2bit_op_i(0) = '0' or alu_2bit_op_i(0) = '1')) then 
+            if(signed(funct7_i) = "0000000" and signed(funct3_i) = "000") then
+                alu_output <= "00010";  -- ADD INSTRUCTION
+            elsif(signed(funct7_i) = "0100000" and signed(funct3_i) = "000") then
+                alu_output <= "00110";  -- SUBTRACT INSTRUCTION
+            elsif(signed(funct7_i) = "0000000" and signed(funct3_i) = "111") then
+                alu_output <= "00000";  -- AND INSTRUCTION
+            elsif(signed(funct7_i) = "0000000" and signed(funct3_i) = "110") then
+                alu_output <= "00001";  -- OR INSTRUCTION      
+            end if; 
+        elsif(alu_2bit_op_i(0) = '1' and (alu_2bit_op_i(1) = '0' or alu_2bit_op_i(1) = '1')) then
+            alu_output <= "00110";
+        end if;
+    end process;
 
 end Behavioral;

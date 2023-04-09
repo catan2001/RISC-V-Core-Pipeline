@@ -49,21 +49,20 @@ architecture Behavioral of register_bank is
     type registerFile is array(0 to 31) of std_logic_vector(WIDTH-1 downto 0);
     signal registers : registerFile := (others => (others => '0'));
 begin
-
-register_bank_write: process(clk) is
-begin
-    if falling_edge(clk) then
-        if(reset = '1') then
-            registers(to_integer(unsigned(rd_address_i))) <= (others => '0');
-        else
-            if(rd_we_i = '1') then
-                registers(to_integer(unsigned(rd_address_i))) <= rd_data_i;
+    register_bank_write: process(clk) is
+    begin
+        if falling_edge(clk) then
+            if(reset = '1') then
+                registers(to_integer(unsigned(rd_address_i))) <= (others => '0');
+            else
+                if(rd_we_i = '1') then
+                    registers(to_integer(unsigned(rd_address_i))) <= rd_data_i;
+                end if;
             end if;
-        end if;
-     end if;       
-end process;
+        end if;       
+    end process;
 
-rs1_data_o <= registers(to_integer(unsigned(rs1_address_i)));
-rs2_data_o <= registers(to_integer(unsigned(rs2_address_i)));
-
+    -- DA LI TREBA DODATI DA JE REGISTAR 0 UVIJEK 0
+    rs1_data_o <= registers(to_integer(unsigned(rs1_address_i)));
+    rs2_data_o <= registers(to_integer(unsigned(rs2_address_i)));
 end Behavioral;
