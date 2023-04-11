@@ -1,6 +1,0 @@
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/data_path.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'data_path'
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sources_1/new/top_riscv.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'top_riscv'
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/nikol/OneDrive/Desktop/Computer Architecture/RISC-V-Core-Pipeline/RISC-V-Core-Pipeline.srcs/sim_1/new/top_riscv.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'TOP_RISCV_tb'

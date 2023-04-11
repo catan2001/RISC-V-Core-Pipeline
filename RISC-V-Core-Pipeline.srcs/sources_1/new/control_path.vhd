@@ -79,7 +79,7 @@ architecture Behavioral of control_path is
     --signals going out of the EX_MEM_REG register
     signal rd_address_mem_s: std_logic_vector(4 downto 0) := (others => '0');
     signal mem_to_reg_mem_s, data_mem_we_mem_s, rd_we_mem_s: std_logic := '0';
-    --sgingal goint out of the MEM_WB_REG register
+    --signal going out of the MEM_WB_REG register
     signal mem_to_reg_wb_s, rd_we_wb_s: std_logic := '0';
     signal rd_address_wb_s: std_logic_vector(4 downto 0) := (others => '0');
 begin

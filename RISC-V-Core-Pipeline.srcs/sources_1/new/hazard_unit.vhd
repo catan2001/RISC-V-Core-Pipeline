@@ -56,7 +56,6 @@ entity hazard_unit is
 end entity;
 
 architecture Behavioral of hazard_unit is
-
 begin
     hazard: process(rs1_address_id_i, rs2_address_id_i, rs1_in_use_i, rs2_in_use_i, rd_address_ex_i, mem_to_reg_ex_i, rd_we_ex_i, branch_id_i, rd_address_mem_i, mem_to_reg_mem_i) is
     begin
@@ -81,7 +80,4 @@ begin
             end if;
         end if;         
     end process;
-
-    
-
 end Behavioral;

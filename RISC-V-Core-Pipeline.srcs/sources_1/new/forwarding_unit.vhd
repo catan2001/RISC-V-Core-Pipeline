@@ -69,7 +69,7 @@ begin
                     alu_forward_b_o <= "01";
                 end if;
             end if;
-            if(rd_we_mem_i = '1' and rd_address_mem_i /= "00000") then
+            if(rd_we_mem_i = '1' and rd_address_mem_i /= "00000") then -- SVJEZIJI JE REZULTAT PA ZATO MEM IMA PRIORITET
                 if(rs1_address_ex_i = rd_address_mem_i) then
                     alu_forward_a_o <= "10";
                 end if; 

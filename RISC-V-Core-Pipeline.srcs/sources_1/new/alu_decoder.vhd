@@ -49,18 +49,18 @@ begin
     alu_dec: process(alu_2bit_op_i, funct3_i, funct7_i) is
     begin
         if(alu_2bit_op_i = "00") then -- FOR OTHER INSTRUCTIONS LW, SW... AUIPC ALSO
-            alu_output <= "00010";
-        elsif(alu_2bit_op_i(1) = '1' and (alu_2bit_op_i(0) = '0' or alu_2bit_op_i(0) = '1')) then 
+            alu_output <= "00010";      
+        elsif(alu_2bit_op_i(1) = '1' and alu_2bit_op_i(0) = '0') then       --(alu_2bit_op_i(0) = '0' or alu_2bit_op_i(0) = '1')) then RIJESI SE LATCH
             if(signed(funct7_i) = "0000000" and signed(funct3_i) = "000") then
                 alu_output <= "00010";  -- ADD INSTRUCTION
             elsif(signed(funct7_i) = "0100000" and signed(funct3_i) = "000") then
                 alu_output <= "00110";  -- SUBTRACT INSTRUCTION
             elsif(signed(funct7_i) = "0000000" and signed(funct3_i) = "111") then
                 alu_output <= "00000";  -- AND INSTRUCTION
-            elsif(signed(funct7_i) = "0000000" and signed(funct3_i) = "110") then
+            else--(signed(funct7_i) = "0000000" and signed(funct3_i) = "110") then
                 alu_output <= "00001";  -- OR INSTRUCTION      
             end if; 
-        elsif(alu_2bit_op_i(0) = '1' and (alu_2bit_op_i(1) = '0' or alu_2bit_op_i(1) = '1')) then
+        else    --elsif(alu_2bit_op_i(0) = '1' and (alu_2bit_op_i(1) = '0' or alu_2bit_op_i(1) = '1')) then RIJESI SE LATCH
             alu_output <= "00110";
         end if;
     end process;   

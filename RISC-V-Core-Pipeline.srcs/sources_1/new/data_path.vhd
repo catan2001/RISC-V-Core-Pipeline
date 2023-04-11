@@ -39,7 +39,7 @@ port(
     -- interfejs ka memoriji za instrukcije
     instr_mem_address_o : out std_logic_vector (31 downto 0);
     instr_mem_read_i : in std_logic_vector(31 downto 0);
-    instruction_o : out std_logic_vector(31 downto 0);
+    instruction_o : out std_logic_vector(31 downto 0); -- UNUTAR DATAPATHA 
     -- interfejs ka memoriji za podatke
     data_mem_address_o : out std_logic_vector(31 downto 0);
     data_mem_write_o : out std_logic_vector(31 downto 0);
@@ -68,7 +68,7 @@ architecture Behavioral of data_path is
     --INSTRUCTION FETCH
     signal mux_out_pc_if, adder_out_if, pc_out_if: std_logic_vector(31 downto 0) := (others => '0');
     --INSTRUCTION DECODE
-    signal if_id_reg_in1, if_id_reg_in2, if_id_reg_in3, if_id_reg_out1, if_id_reg_out2, if_id_reg_out3: std_logic_vector(31 downto 0):= (others => '0');
+    signal if_id_reg_in1, if_id_reg_in2, if_id_reg_outside_fixed, if_id_reg_out1, if_id_reg_out2: std_logic_vector(31 downto 0):= (others => '0');
     signal rs1_address,  rs2_address, rd_address: std_logic_vector(4 downto 0) := (others => '0');
     signal rd_data, rs1_data, rs2_data: std_logic_vector(31 downto 0) := (others => '0');
     signal mux_comp_id1, mux_comp_id2: std_logic_vector(31 downto 0) := (others => '0');
@@ -88,12 +88,12 @@ begin
     --INSTRUCTION FETCH PHASE
 
     -- Selection Mux for pc_next
-    mux_if: process(pc_next_sel_i, adder_out_if, if_id_reg_out3) is
+    mux_if: process(pc_next_sel_i, adder_out_if, if_id_reg_outside_fixed) is
     begin
         if(pc_next_sel_i = '0') then
             mux_out_pc_if <= adder_out_if;
         else
-            mux_out_pc_if <= if_id_reg_out3;
+            mux_out_pc_if <= if_id_reg_outside_fixed;
         end if;
     end process;
 
@@ -118,32 +118,38 @@ begin
     --instruction memory part
     instr_mem_address_o <= pc_out_if; 
     if_id_reg_in1 <= instr_mem_read_i;
+    if_id_reg_in2 <= pc_out_if; 
 
     -- ************** DODAJ OSTALE DIJELOVE!!!!!!!!!! ***********
     -- PROVJERI DA LI TREBA DODATI RESET NA SVAKI REGISTAR DODATNI
     -- PAZI IMAS GRESKU ZA POVRATAK U KOMPARATOR ZBOG PDFA ZA BRANCH FORWARD
-    -- dodaj konju i resete na registre isto dodaj na if_ID_REGISTAR instruction_o
+    -- dodaj i resete na registre isto dodaj na if_ID_REGISTAR instruction_o, aktivni na 0
     -- SVI RESETI SU NA NULI
     -- NAVODNO TRECI SIGNAL U IF_ID TREBA DA ZAPRAVO ZAOBIDJE REGISTAR
     if_id_reg: process(clk) is -- IF_ID_REGISTER
     begin
         if(rising_edge(clk)) then
-            if(if_id_en_i = '1') then
+            if(reset = '1') then
                 if(if_id_flush_i = '1') then
-                    if_id_reg_out1 <= (others => '0');
-                    if_id_reg_out2 <= (others => '0');
-                    if_id_reg_out3 <= (others => '0');
+                        if_id_reg_out1 <= (others => '0');
+                        if_id_reg_out2 <= (others => '0');
+                        --if_id_reg_out3 <= (others => '0');
                 else
-                    if_id_reg_out1 <= if_id_reg_in1;
-                    if_id_reg_out2 <= if_id_reg_in2;
-                    if_id_reg_out3 <= if_id_reg_in3;
+                    if(if_id_en_i = '1') then
+                        if_id_reg_out1 <= if_id_reg_in1;
+                        if_id_reg_out2 <= if_id_reg_in2;
+                        --if_id_reg_out3 <= if_id_reg_in3;
+                    end if;
                 end if;
+            else
+                if_id_reg_out1 <= (others => '0');
+                if_id_reg_out2 <= (others => '0');
             end if;                 
         end if;
     end process;
 
     --Instruction decode part
-
+    instruction_o <= if_id_reg_out1;
     rs1_address <= if_id_reg_out1(19 downto 15);    -- IDE DALJE U BANKU
     rs2_address <= if_id_reg_out1(24 downto 20);    --IDE DALJE U BANKU
     --rd_address <= if_id_reg_out1(11 downto 7); -- IDE DALJE U REG
@@ -165,13 +171,13 @@ begin
         
     rd_data <= mux_mem_to_reg_wb; -- FOR EASE OF USE
     rd_address <= mem_wb_reg_out3(11 downto 7);
-    -- ISPOD JE GRESKA I TREBA DA ISPRAVIS
+    -- ISPOD JE GRESKA I TREBA DA ISPRAVIS, UPDATE: ISPRAVLJENO
     mux_comp1: process(branch_forward_a_i, rs1_data, mux_mem_to_reg_wb) -- MUX that goes into comparator as a branch condition
     begin
         if(branch_forward_a_i = '0') then
             mux_comp_id1 <= rs1_data;
         else
-            mux_comp_id1 <= mux_mem_to_reg_wb;
+            mux_comp_id1 <= ex_mem_reg_out1; -- greska, UPDATE: ISPRAVLJENO
         end if;
     end process;
 
@@ -180,13 +186,13 @@ begin
         if(branch_forward_b_i = '0') then
             mux_comp_id2 <= rs2_data;
         else
-            mux_comp_id2 <= mux_mem_to_reg_wb;
+            mux_comp_id2 <= ex_mem_reg_out1; -- greska, UPDATE: ISPRAVLJENO
         end if;
     end process;
 
     comparator: process(mux_comp_id1, mux_comp_id2) is
     begin
-        if(unsigned(mux_comp_id1) = unsigned(mux_comp_id2)) then
+        if(unsigned(mux_comp_id1) = unsigned(mux_comp_id2)) then -- Opet sam stavio unsigned -_- ???
             branch_condition_o <= '1';
         else
             branch_condition_o <= '0';
@@ -204,20 +210,29 @@ begin
         shifter_output_id <= immediate_id(30 downto 0)&'0';
     end process;
 
-    adder: process(if_id_reg_in2, shifter_output_id) is
+    adder: process(if_id_reg_out2, shifter_output_id) is
     begin
-        if_id_reg_in3 <= std_logic_vector(unsigned(if_id_reg_in2) + unsigned(shifter_output_id));
+        if_id_reg_outside_fixed <= std_logic_vector(unsigned(if_id_reg_out2) + unsigned(shifter_output_id));
     end process;
 
     id_ex_reg: process(clk) is
     begin
         if(rising_edge(clk)) then
-            id_ex_reg_out1 <= rs1_data;
-            id_ex_reg_out2 <= rs2_data;
-            id_ex_reg_out3 <= immediate_id;
-            id_ex_reg_out4 <= rs2_data; -- NE MORA DVA VALJDA MOZE SAMO JEDAN?
-            id_ex_reg_out5 <= if_id_reg_out1;
-            id_ex_reg_out6 <= if_id_reg_out2;
+            if(reset = '1') then
+                id_ex_reg_out1 <= rs1_data;
+                id_ex_reg_out2 <= rs2_data;
+                id_ex_reg_out3 <= immediate_id;
+                id_ex_reg_out4 <= rs2_data; -- NE MORA DVA VALJDA MOZE SAMO JEDAN?
+                id_ex_reg_out5 <= if_id_reg_out1;
+                id_ex_reg_out6 <= if_id_reg_out2; -- Sending the value of PC to next stage for AUIPC
+            else
+                id_ex_reg_out1 <= (others => '0');
+                id_ex_reg_out2 <= (others => '0');
+                id_ex_reg_out3 <= (others => '0');
+                id_ex_reg_out4 <= (others => '0'); -- NE MORA DVA VALJDA MOZE SAMO JEDAN?
+                id_ex_reg_out5 <= (others => '0');
+                id_ex_reg_out6 <= (others => '0'); -- ZA AUIPC
+            end if;
         end if;
     end process;
     -- EXECUTE PHASE
@@ -278,9 +293,15 @@ begin
     ex_mem_reg: process(clk) is
     begin
         if(rising_edge(clk)) then
-            ex_mem_reg_out1 <= alu_result;
-            ex_mem_reg_out2 <= id_ex_reg_out4;
-            ex_mem_reg_out3 <= id_ex_reg_out5;
+            if(reset = '1') then
+                ex_mem_reg_out1 <= alu_result;
+                ex_mem_reg_out2 <= id_ex_reg_out4;
+                ex_mem_reg_out3 <= id_ex_reg_out5;
+            else
+                ex_mem_reg_out1 <= (others => '0');
+                ex_mem_reg_out2 <= (others => '0');
+                ex_mem_reg_out3 <= (others => '0');    
+            end if;      
         end if;    
     end process;
 
@@ -294,9 +315,15 @@ begin
     mem_wb_reg: process(clk) is
     begin   
         if(rising_edge(clk)) then
-            mem_wb_reg_out1 <= ex_mem_reg_out1;
-            mem_wb_reg_out2 <= data_mem_read_i;
-            mem_wb_reg_out3 <= ex_mem_reg_out3;
+            if(reset = '1') then
+                mem_wb_reg_out1 <= ex_mem_reg_out1;
+                mem_wb_reg_out2 <= data_mem_read_i;
+                mem_wb_reg_out3 <= ex_mem_reg_out3;
+            else
+                mem_wb_reg_out1 <= (others => '0');
+                mem_wb_reg_out2 <= (others => '0');
+                mem_wb_reg_out3 <= (others => '0');
+            end if;
         end if;
     end process;
 

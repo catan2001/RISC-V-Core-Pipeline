@@ -34,7 +34,7 @@ architecture Behavioral of ctrl_decoder is
 begin
     process(opcode_i) is
     begin
-        case opcode_i is    -- STAVI IF A NE CASE ZBOG NPR NOP INSTRUKCIJE
+        case opcode_i is    -- STAVI IF A NE CASE ZBOG NPR NOP INSTRUKCIJE... UPDATE: NE TREBA, MOZE I CASE
         when "0110011" =>   branch_o <= '0';        -- R
                             mem_to_reg_o <= '0';    -- sends back to reg_bank from EX_MEM_REG(ALU) not from MEM
                             data_mem_we_o <= '0';   -- disables writing data
@@ -83,17 +83,17 @@ begin
                             rd_we_o <= '0';          -- enables writing output to register bank
                             rs1_in_use_o <= '1';    -- PROVJERI **
                             rs2_in_use_o <= '1';    -- PROVJERI **
-                            alu_2bit_op_o <= "01";  -- ODUZIMANJE?     
+                            alu_2bit_op_o <= "01";  -- ODUZIMANJE? Ima logike kada bi u ALU imali signal koji oznacava a ovako imamo jedinicu koja provjerava jednakost
 
         when "0010111" =>   branch_o <= '0';        -- AUIPC
                             mem_to_reg_o <= '0';    -- sends back to reg_bank from EX_MEM_REG(ALU) not from MEM
                             data_mem_we_o <= '0';   -- disables writing data
-                            alu_src_b_o <= '1';     
-                            alu_src_a_o <= '1';
-                            rd_we_o <= '0';          -- enables writing output to register bank
+                            alu_src_b_o <= '1';     -- uses the immediate value for PC + Imm
+                            alu_src_a_o <= '1';     -- uses the PC value for PC+ Imm
+                            rd_we_o <= '1';          -- enables writing output to register bank
                             rs1_in_use_o <= '0';    -- PROVJERI **
                             rs2_in_use_o <= '0';    -- PROVJERI **                       
-                            alu_2bit_op_o <= "00";   -- PROVJERI ZA AUIPC
+                            alu_2bit_op_o <= "00";   -- PROVJERI ZA AUIPC (Should be 00 BCS it should only add and immediate value could make it do something else)
                             
         when others =>      branch_o <= '0'; 
                             mem_to_reg_o <= '0';    -- sends back to reg_bank from EX_MEM_REG(ALU) not from MEM
@@ -103,7 +103,7 @@ begin
                             rd_we_o <= '0';          -- enables writing output to register bank
                             rs1_in_use_o <= '0';    -- PROVJERI **
                             rs2_in_use_o <= '0';    -- PROVJERI **
-                            alu_2bit_op_o <= "11";   
+                            alu_2bit_op_o <= "00";   
         end case;                                                                                                                                                                 
     end process;
 end Behavioral;

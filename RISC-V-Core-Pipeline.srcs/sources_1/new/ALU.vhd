@@ -21,7 +21,7 @@ END ALU;
 
 architecture Behavioral of ALU is
     signal result_alu: std_logic_vector(31 downto 0) := (others => '0');
-    signal sub_res, add_res, first_operand, second_operand : std_logic_vector(32 downto 0) := (others => '0');  
+    signal sub_res, add_res, first_operand, second_operand : std_logic_vector(32 downto 0) := (others => '0');   --not necessary bcs we don't have zero and of
 begin
 
     process(a_i, b_i, op_i, add_res, sub_res) is
@@ -31,7 +31,7 @@ begin
             when "00001" => result_alu <= a_i or b_i;
             when "00010" => result_alu <= add_res(31 downto 0); -- da li moze ista za addi?
             when "00110" => result_alu <= sub_res(31 downto 0);
-            when others => result_alu <= x"00000000";
+            when others => result_alu <= x"00000000"; 
         end case;            
     end process;
 
