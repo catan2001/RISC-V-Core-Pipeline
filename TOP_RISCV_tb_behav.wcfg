@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="756501fs"></ZoomEndTime>
-      <Cursor1Time time="273500fs"></Cursor1Time>
+      <ZoomEndTime time="11000001fs"></ZoomEndTime>
+      <Cursor1Time time="11000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="240"></NameColumnWidth>
-      <ValueColumnWidth column_width="115"></ValueColumnWidth>
+      <ValueColumnWidth column_width="110"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="133" />
+   <WVObjectSize size="146" />
    <wvobject fp_name="/TOP_RISCV_tb/reset" type="logic">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
@@ -155,6 +155,7 @@
    <wvobject fp_name="/TOP_RISCV_tb/TOP_RISCV_1/data/register_bank/registers" type="array">
       <obj_property name="ElementShortName">registers[0:31][31:0]</obj_property>
       <obj_property name="ObjectShortName">registers[0:31][31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="/TOP_RISCV_tb/TOP_RISCV_1/data/register_bank/WIDTH" type="other">
       <obj_property name="ElementShortName">WIDTH</obj_property>
@@ -423,7 +424,7 @@
    <wvobject fp_name="/TOP_RISCV_tb/TOP_RISCV_1/data/if_id_reg_in1" type="array">
       <obj_property name="ElementShortName">if_id_reg_in1[31:0]</obj_property>
       <obj_property name="ObjectShortName">if_id_reg_in1[31:0]</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TOP_RISCV_tb/TOP_RISCV_1/data/if_id_reg_in2" type="array">
       <obj_property name="ElementShortName">if_id_reg_in2[31:0]</obj_property>
@@ -436,6 +437,7 @@
    <wvobject fp_name="/TOP_RISCV_tb/TOP_RISCV_1/data/if_id_reg_out1" type="array">
       <obj_property name="ElementShortName">if_id_reg_out1[31:0]</obj_property>
       <obj_property name="ObjectShortName">if_id_reg_out1[31:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/TOP_RISCV_tb/TOP_RISCV_1/data/if_id_reg_out2" type="array">
       <obj_property name="ElementShortName">if_id_reg_out2[31:0]</obj_property>
@@ -552,5 +554,57 @@
    <wvobject fp_name="/TOP_RISCV_tb/TOP_RISCV_1/data/mux_mem_to_reg_wb" type="array">
       <obj_property name="ElementShortName">mux_mem_to_reg_wb[31:0]</obj_property>
       <obj_property name="ObjectShortName">mux_mem_to_reg_wb[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_RISCV_tb/data_mem/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_RISCV_tb/data_mem/en_a_i" type="logic">
+      <obj_property name="ElementShortName">en_a_i</obj_property>
+      <obj_property name="ObjectShortName">en_a_i</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_RISCV_tb/data_mem/en_b_i" type="logic">
+      <obj_property name="ElementShortName">en_b_i</obj_property>
+      <obj_property name="ObjectShortName">en_b_i</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_RISCV_tb/data_mem/data_a_i" type="array">
+      <obj_property name="ElementShortName">data_a_i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_a_i[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_RISCV_tb/data_mem/data_b_i" type="array">
+      <obj_property name="ElementShortName">data_b_i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_b_i[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_RISCV_tb/data_mem/addr_a_i" type="array">
+      <obj_property name="ElementShortName">addr_a_i[9:0]</obj_property>
+      <obj_property name="ObjectShortName">addr_a_i[9:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_RISCV_tb/data_mem/addr_b_i" type="array">
+      <obj_property name="ElementShortName">addr_b_i[9:0]</obj_property>
+      <obj_property name="ObjectShortName">addr_b_i[9:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_RISCV_tb/data_mem/we_a_i" type="array">
+      <obj_property name="ElementShortName">we_a_i[3:0]</obj_property>
+      <obj_property name="ObjectShortName">we_a_i[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_RISCV_tb/data_mem/we_b_i" type="array">
+      <obj_property name="ElementShortName">we_b_i[3:0]</obj_property>
+      <obj_property name="ObjectShortName">we_b_i[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_RISCV_tb/data_mem/data_a_o" type="array">
+      <obj_property name="ElementShortName">data_a_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_a_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_RISCV_tb/data_mem/data_b_o" type="array">
+      <obj_property name="ElementShortName">data_b_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_b_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_RISCV_tb/data_mem/ram_s" type="array">
+      <obj_property name="ElementShortName">ram_s[0:1023][7:0]</obj_property>
+      <obj_property name="ObjectShortName">ram_s[0:1023][7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_RISCV_tb/data_mem/WADDR" type="other">
+      <obj_property name="ElementShortName">WADDR</obj_property>
+      <obj_property name="ObjectShortName">WADDR</obj_property>
    </wvobject>
 </wave_config>
